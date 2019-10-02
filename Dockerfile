@@ -1,13 +1,16 @@
 FROM ubuntu:latest 
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get -q update \
- && apt-get -y --no-install-recommends install \
+ && apt-get -y install \
  		curl \
 		imagemagick \
 		ffmpeg \
 		nginx \
 		supervisor \
 		xxd
+
 
 ADD html /usr/share/nginx/html
 
