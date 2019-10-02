@@ -2,7 +2,7 @@
 
 while true
 do
-	/opt/baywatch/explograb.sh /opt/baywatch/snaps/
+	/opt/baywatch/snap.sh /opt/baywatch/snaps/
 	pid=$!
 	sleep 20
 	kill -SIGKILL $pid

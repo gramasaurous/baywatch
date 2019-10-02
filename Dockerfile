@@ -1,15 +1,19 @@
-FROM nginx:latest 
+FROM ubuntu:latest 
 
 RUN apt-get -q update \
- && apt-get -y --no-install-recommends install cron \
- 		       curl \
-		       imagemagick \
-		       ffmpeg \
-		       supervisor \
-		       xxd
+ && apt-get -y --no-install-recommends install \
+ 		curl \
+		imagemagick \
+		ffmpeg \
+		nginx \
+		supervisor \
+		xxd
 
-ADD assets /usr/share/nginx/html
+ADD html /usr/share/nginx/html
 
 ADD scripts /opt/baywatch
 
-ADD crontabs /etc/cron.d/
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+CMD [ "/usr/bin/supervisord" ]
+
