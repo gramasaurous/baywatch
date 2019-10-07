@@ -13,6 +13,7 @@ pushd ${FOLDER}
 WORKDIR=$(mktemp -d)
 
 mkdir -p ${WORKDIR}/rejects/
+mkdir -p /var/www/html/archive/rejects
 
 mv *.jpg ${WORKDIR}
 mv rejects/*.jpg ${WORKDIR}/rejects/
@@ -28,6 +29,6 @@ TIMESTAMP=$(date +"%y-%m-%dT%H:%M")
 
 mv rejects.mp4 /var/www/html/archive/rejects/${TIMESTAMP}.mp4
 mv clean.mp4 /var/www/html/archive/${TIMESTAMP}.mp4
-cp /var/www/html/achive/${TIMESTAMP}.mp4 /var/www/html/latest.mp4
+cp /var/www/html/archive/${TIMESTAMP}.mp4 /var/www/html/latest.mp4
 
 
