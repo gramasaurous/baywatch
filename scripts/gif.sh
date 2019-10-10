@@ -22,12 +22,12 @@ pushd ${WORKDIR}
 
 rm tmp.jpg
 
-cat *.jpg | ffmpeg -f image2pipe -vcodec mjpeg -i - clean.mp4
-cat rejects/*.jpg | ffmpeg -f image2pipe -vcodec mjpeg -i - reject.mp4
+ffmpeg -f image2 -pattern_type glob -i '*.jpg' -pix_fmt yuv420p -vcodec libx264 clean.mp4
+ffmpeg -f image2 -pattern_type glob -i 'rejects/*.jpg' -pix_fmt yuv420p -vcodec libx264 clean.mp4
 
 TIMESTAMP=$(date +"%y-%m-%dT%H:%M")
 
-mv rejects.mp4 /var/www/html/archive/rejects/${TIMESTAMP}.mp4
+mv reject.mp4 /var/www/html/archive/rejects/${TIMESTAMP}.mp4
 mv clean.mp4 /var/www/html/archive/${TIMESTAMP}.mp4
 cp /var/www/html/archive/${TIMESTAMP}.mp4 /var/www/html/latest.mp4
 
