@@ -9,9 +9,9 @@ app = Flask(__name__)
 def prev():
 	files = os.listdir("static/archive")
 	files.sort()
-	curr = request.args.get('a', "latest.mp4", type=str).split("/")[-1]
+	curr = request.args.get('a', "", type=str).split("/")[-1]
 
-	if curr == "latest.mp4":
+	if curr == "":
 		return jsonify(result="static/archive/" + files[-1])
 	else:
 		i = files.index(curr)
@@ -32,3 +32,6 @@ def next():
 @app.route("/")
 def baywatch():
 	return render_template('index.html')
+
+
+
