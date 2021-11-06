@@ -29,9 +29,12 @@ def next():
 		i = files.index(curr)
 		return jsonify(result="static/archive/" + files[i+1])
 
+def get_latest():
+	files = os.listdir("static/archive")
+	files.sort()
+	return "static/archive/" + files[-1]
+
 @app.route("/")
 def baywatch():
-	return render_template('index.html')
-
-
-
+	file = get_latest()
+	return render_template('index.html', latest=file)

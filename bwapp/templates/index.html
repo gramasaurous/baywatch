@@ -6,27 +6,27 @@
 
 <script>
   $(function() {
-    $('a#prev').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/prev', {
-        a: $('#current').attr('src')
-      }, function(data) {
-        $("#current").attr('src', data.result);
-        $("#player").load();
-        $("#plater").play();
-      });
-      return false;
-    });
-    $('a#next').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/next', {
-        a: $('#current').attr('src')
-      }, function(data) {
-        $("#current").attr('src', data.result);
-        $("#player").load();
-        $("#plater").play();
-      });
-      return false;
-    });
-    
+	$('a#prev').bind('click', function() {
+	  $.getJSON($SCRIPT_ROOT + '/prev', {
+		a: $('#current').attr('src')
+	  }, function(data) {
+		$("#current").attr('src', data.result);
+		$("#player").load();
+		$("#player").play();
+	  });
+	  return false;
+	});
+	$('a#next').bind('click', function() {
+	  $.getJSON($SCRIPT_ROOT + '/next', {
+		a: $('#current').attr('src')
+	  }, function(data) {
+		$("#current").attr('src', data.result);
+		$("#player").load();
+		$("#player").play();
+	  });
+	  return false;
+	});
+	
   });
 </script>
 
@@ -55,10 +55,8 @@
 
 <div align="center">
 <video id="player" width="720" height="640" loop autoplay>
-	<source src="{{url_for('static', filename='archive/latest.mp4')}}" type="video/mp4" id="current">
+	<source src="{{latest}}" type="video/mp4" id="current">
 </video>
-
-<p id="result"></p>
 </div>
 
 <div align="center">
