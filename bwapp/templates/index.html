@@ -1,0 +1,70 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+  $SCRIPT_ROOT = {{ request.script_root|tojson }};
+</script>
+
+
+<script>
+  $(function() {
+    $('a#prev').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/prev', {
+        a: $('#current').attr('src')
+      }, function(data) {
+        $("#current").attr('src', data.result);
+        $("#player").load();
+        $("#plater").play();
+      });
+      return false;
+    });
+    $('a#next').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/next', {
+        a: $('#current').attr('src')
+      }, function(data) {
+        $("#current").attr('src', data.result);
+        $("#player").load();
+        $("#plater").play();
+      });
+      return false;
+    });
+    
+  });
+</script>
+
+<html>
+<title>baywatch</title>
+<head>
+	<style>
+		code {color:white; font-size:16px;}
+		a {
+		  text-decoration: none;
+		  display: inline-block;
+		  padding: 8px 16px;
+		  background-color: #f1f1f1;
+		  color: black;
+		}
+		a:hover {
+		  background-color: #ddd;
+		  color: white;
+		}
+	</style>
+</head>
+
+<body background="{{url_for('static', filename='background.jpg')}}">
+
+<code>bay.watch</code>
+
+<div align="center">
+<video id="player" width="360" height="320" loop autoplay>
+	<source src="{{url_for('static', filename='archive/latest.mp4')}}" type="video/mp4" id="current">
+</video>
+
+<p id="result"></p>
+</div>
+
+<div align="center">
+<a href="#" id="prev">&#8249;</a>
+<a href="#" id="next">&#8250;</a>
+</div>
+
+</body>
+</html>
