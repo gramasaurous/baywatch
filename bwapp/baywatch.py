@@ -12,7 +12,7 @@ def prev():
 	curr = request.args.get('a', "", type=str).split("/")[-1]
 
 	if curr == "":
-		return jsonify(result="static/archive/" + files[-1])
+		return jsonify(result="static/archive/" + files[-2])
 	else:
 		i = files.index(curr)
 		return jsonify(result="static/archive/" + files[i-1])
@@ -21,7 +21,7 @@ def prev():
 def next():
 	files = os.listdir("static/archive")
 	files.sort()
-	curr = request.args.get('a', "latest.mp4", type=str).split("/")[-1]
+	curr = request.args.get('a', "", type=str).split("/")[-2]
 
 	if curr == "latest.mp4":
 		return jsonify(result="static/archive/" + files[-1])
@@ -32,7 +32,7 @@ def next():
 def get_latest():
 	files = os.listdir("static/archive")
 	files.sort()
-	return "static/archive/" + files[-1]
+	return "static/archive/" + files[-2]
 
 @app.route("/")
 def baywatch():
