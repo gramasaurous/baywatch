@@ -5,36 +5,34 @@ import os
 app = Flask(__name__)
 
 
-@app.route("/prev")
-def prev():
+@app.route("/giflist")
+def giflist():
+	# how many files to return
+	RETURN_NO = 5
+
 	files = os.listdir("static/archive")
 	files.sort()
+
+	# ignore rejects and latest.mp4
+	files = files[:-2]
+	
+	# split /static/archive/ from request
 	curr = request.args.get('a', "", type=str).split("/")[-1]
 
-	if curr == "":
-		return jsonify(result="static/archive/" + files[-2])
-	else:
+	# calculate request array start/end positions
+	try:
 		i = files.index(curr)
-		return jsonify(result="static/archive/" + files[i-1])
+		start_pos = (i - RETURN_NO) % RETURN_NO
 
-@app.route("/next")
-def next():
-	files = os.listdir("static/archive")
-	files.sort()
-	curr = request.args.get('a', "", type=str).split("/")[-2]
+	# default to latest if file not found
+	except:
+		i = len(files)
+		start_pos = i - RETURN_NO
 
-	if curr == "latest.mp4":
-		return jsonify(result="static/archive/" + files[-1])
-	else:
-		i = files.index(curr)
-		return jsonify(result="static/archive/" + files[i+1])
-
-def get_latest():
-	files = os.listdir("static/archive")
-	files.sort()
-	return "static/archive/" + files[-2]
+	# add back static/archive to file names, and serve
+	data = map(lambda x: "static/archive/" + x, files[start_pos:i])
+	return jsonify(result=list(data))
 
 @app.route("/")
 def baywatch():
-	file = get_latest()
-	return render_template('index.html', latest=file)
+	return render_template('index.html')

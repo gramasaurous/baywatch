@@ -1,33 +1,66 @@
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
+
 <script>
   $SCRIPT_ROOT = {{ request.script_root|tojson }};
 </script>
 
+<script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+
 
 <script>
+
+	var giflist = [];
+	var pos = 0;
+
   $(function() {
+
+ 	getGifList('latest.mp4');
+
 	$('a#prev').bind('click', function() {
-	  $.getJSON($SCRIPT_ROOT + '/prev', {
-		a: $('#current').attr('src')
-	  }, function(data) {
-		$("#current").attr('src', data.result);
+
+		if (pos == 0) {
+			getGifList(giflist[pos]);
+		}
+		if (pos <= 0) {
+				pos = 0;
+		} else {
+			pos--;
+		}
+		$("#current").attr('src', giflist[pos]);
 		$("#player").load();
-		$("#player").play();
-	  });
+	  
 	  return false;
 	});
+
 	$('a#next').bind('click', function() {
-	  $.getJSON($SCRIPT_ROOT + '/next', {
-		a: $('#current').attr('src')
-	  }, function(data) {
-		$("#current").attr('src', data.result);
+
+		if (pos == giflist.length - 1) {
+			pos = pos;			
+		} else {
+			pos++;
+		}
+
+		$("#current").attr('src', giflist[pos]);
 		$("#player").load();
-		$("#player").play();
-	  });
+
 	  return false;
 	});
 	
   });
+
+	function getGifList(current) {
+
+	  $.getJSON($SCRIPT_ROOT + "/giflist", {a:(current)}, function(response) {
+	  	newgifs = response.result;
+	  	tmp = newgifs.concat(giflist);
+	  	giflist = tmp;
+	  	pos = response.result.length - 1;
+	  });
+
+	}
+
+
 </script>
 
 <html>
@@ -55,7 +88,7 @@
 
 <div align="center">
 <video id="player" width="720" height="640" loop autoplay>
-	<source src="{{latest}}" type="video/mp4" id="current">
+	<source src="{{url_for('static', filename='archive/latest.mp4')}}" type="video/mp4" id="current">
 </video>
 </div>
 
