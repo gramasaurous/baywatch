@@ -27,9 +27,9 @@
 		} else {
 			pos--;
 		}
-		$("#current").attr('src', giflist[pos]);
-		$("#player").load();
-	  
+	
+		updatePlayer();
+	
 	  return false;
 	});
 
@@ -41,13 +41,21 @@
 			pos++;
 		}
 
-		$("#current").attr('src', giflist[pos]);
-		$("#player").load();
+		updatePlayer();
 
 	  return false;
 	});
 	
   });
+
+  function updatePlayer() {
+
+  	var display = giflist[pos].split("/")[2].split(".mp4")[0];
+		$("#timestamp").text(display);
+		$("#current").attr('src', giflist[pos]);
+		$("#player").load();
+
+  }
 
 	function getGifList(current) {
 
@@ -90,6 +98,10 @@
 <video id="player" width="720" height="640" loop autoplay>
 	<source src="{{url_for('static', filename='archive/latest.mp4')}}" type="video/mp4" id="current">
 </video>
+</div>
+
+<div align="center">
+	<code id="timestamp"></code>
 </div>
 
 <div align="center">
