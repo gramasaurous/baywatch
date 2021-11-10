@@ -50,7 +50,8 @@
 
   function updatePlayer() {
 
-  	var display = giflist[pos].split("/")[2].split(".mp4")[0];
+  	var d = giflist[pos].split("/")[2].split(".mp4")[0];
+  	var display = Date("20"+d+":00Z").toString();
 		$("#timestamp").text(display);
 		$("#current").attr('src', giflist[pos]);
 		$("#player").load();
